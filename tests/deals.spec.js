@@ -1,4 +1,5 @@
 import { test, expect } from './support/base';
+import { deals } from './fixtures/deals';
 
 test.describe.configure({ timeout: 60_000 });
 
@@ -8,7 +9,7 @@ test('reserves a deal item', async ({ loginPage, dealsPage, page }) => {
   await expect(page).toHaveURL(/\/dashboard/);
 
   await dealsPage.goto();
-  await dealsPage.reserveItem('Item Name Here');
+  await dealsPage.reserveItem(deals.reservable);
 
   await expect(dealsPage.successMessage).toHaveText('Reservation confirmed.');
 });
