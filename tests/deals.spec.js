@@ -8,8 +8,8 @@ test('reserves a deal item', async ({ loginPage, dealsPage, page }) => {
   await loginPage.login(process.env.TEST_USERNAME, process.env.TEST_PASSWORD);
   await expect(page).toHaveURL(/\/dashboard/);
 
-  await dealsPage.goto();
-  await dealsPage.reserveItem(deals.reservable);
+  await dealsPage.navigateFromNav();
+  await dealsPage.reserveItems(deals.reservable.dealName, deals.reservable.items);
 
-  await expect(dealsPage.successMessage).toHaveText('Reservation confirmed.');
+  await expect(dealsPage.successMessage).toHaveText('Quantity reserved successfully.');
 });
