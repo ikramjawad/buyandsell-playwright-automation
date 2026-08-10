@@ -36,6 +36,9 @@ export default defineConfig({
     /* Run tests in a visible browser window instead of headless. */
     headless: false,
 
+    /* Capture a screenshot when a test fails. */
+    screenshot: 'only-on-failure',
+
     /* Maximum time page.goto() will wait before failing, instead of relying on the overall test timeout. */
     navigationTimeout: 20_000,
 
