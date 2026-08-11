@@ -1,7 +1,7 @@
 import { test, expect } from './support/base';
 import { deals } from './fixtures/deals';
 
-test.describe.configure({ timeout: 60_000 });
+test.describe.configure({ timeout: 120_000 });
 
 test('reserves all items when every item is available', async ({ loginPage, dealsPage, page }) => {
   await loginPage.goto();

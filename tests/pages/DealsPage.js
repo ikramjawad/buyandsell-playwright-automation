@@ -5,6 +5,9 @@ export class DealsPage extends BasePage {
   constructor(page) {
     super(page);
     this.dealCards = page.locator('.deal-card-item');
+    this.dealSearchInput = page.getByPlaceholder('Search Deals').first();
+    this.dealSearchButton = page.locator('button.fe.fe-search').first();
+    this.dealSearchSpinner = page.locator('.bf-table-search .bfmr-btn-loading').first();
     this.confirmReservationButton = page.locator('[role="dialog"] button:has-text("Reserve")');
     this.successMessage = page.locator('.v-toast__text');
   }
@@ -24,7 +27,16 @@ export class DealsPage extends BasePage {
     return this.page.locator('tr').filter({ has: this.page.locator('.text-cont .text', { hasText: itemName }) });
   }
 
+  async searchForDeal(dealName) {
+    await this.dealSearchInput.fill(dealName.trim());
+    await this.dealSearchButton.click();
+    await this.dealSearchSpinner.waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
+    await this.dealSearchSpinner.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
+  }
+
   async reserveItems(dealName, items) {
+    await this.searchForDeal(dealName);
+
     const dealCard = this.dealCardByName(dealName);
     if (await dealCard.count() === 0) {
       throw new Error(`Deal "${dealName}" not found or is not available.`);
